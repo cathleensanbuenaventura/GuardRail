@@ -1,0 +1,155 @@
+{
+  "version": "1.0.0",
+  "patterns": [
+    {
+      "id": "aws_access_key",
+      "name": "AWS Access Key ID",
+      "regex": "(?<![A-Z0-9])(AKIA[0-9A-Z]{16})(?![A-Z0-9])",
+      "base_score": 90,
+      "severity": "critical",
+      "description": "AWS Access Key ID"
+    },
+    {
+      "id": "aws_secret_key",
+      "name": "AWS Secret Access Key",
+      "regex": "(?i)aws[_\\-\\s]?secret[_\\-\\s]?(?:access[_\\-\\s]?)?key[\\s]*[=:][\\s]*['\"]?([A-Za-z0-9/+=]{40})['\"]?",
+      "base_score": 95,
+      "severity": "critical",
+      "description": "AWS Secret Access Key"
+    },
+    {
+      "id": "jwt_token",
+      "name": "JWT Token",
+      "regex": "eyJ[A-Za-z0-9_-]{10,}\\.[A-Za-z0-9_-]{10,}\\.[A-Za-z0-9_-]{10,}",
+      "base_score": 80,
+      "severity": "high",
+      "description": "JSON Web Token"
+    },
+    {
+      "id": "generic_api_key",
+      "name": "Generic API Key",
+      "regex": "(?i)(?:api[_\\-\\s]?key|apikey|api[_\\-\\s]?token)[\\s]*[=:][\\s]*['\"]?([A-Za-z0-9_\\-]{20,})['\"]?",
+      "base_score": 70,
+      "severity": "high",
+      "description": "Generic API Key or Token"
+    },
+    {
+      "id": "generic_secret",
+      "name": "Generic Secret",
+      "regex": "(?i)(?:secret|token|passwd|password|pwd|auth)[\\s]*[=:][\\s]*['\"]([^'\"\\s]{8,})['\"]",
+      "base_score": 65,
+      "severity": "high",
+      "description": "Hardcoded secret or password"
+    },
+    {
+      "id": "private_key_header",
+      "name": "Private Key",
+      "regex": "-----BEGIN (?:RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----",
+      "base_score": 100,
+      "severity": "critical",
+      "description": "PEM Private Key block"
+    },
+    {
+      "id": "github_token",
+      "name": "GitHub Token",
+      "regex": "(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9]{36}",
+      "base_score": 90,
+      "severity": "critical",
+      "description": "GitHub Personal Access Token"
+    },
+    {
+      "id": "slack_token",
+      "name": "Slack Token",
+      "regex": "xox[baprs]-[0-9]{10,}-[0-9]{10,}-[A-Za-z0-9]{24,}",
+      "base_score": 80,
+      "severity": "high",
+      "description": "Slack OAuth Token"
+    },
+    {
+      "id": "stripe_key",
+      "name": "Stripe Key",
+      "regex": "(?:sk|pk)_(?:live|test)_[A-Za-z0-9]{24,}",
+      "base_score": 85,
+      "severity": "critical",
+      "description": "Stripe API Key"
+    },
+    {
+      "id": "database_url",
+      "name": "Database Connection String",
+      "regex": "(?i)(?:postgres|postgresql|mysql|mongodb|redis|mssql)://[^\\s\"']+:[^\\s\"'@]+@[^\\s\"']+",
+      "base_score": 85,
+      "severity": "critical",
+      "description": "Database connection string with credentials"
+    },
+    {
+      "id": "private_ip",
+      "name": "Private IP Address",
+      "regex": "(?:10\\.(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)|172\\.(?:1[6-9]|2\\d|3[01])\\.(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)|192\\.168\\.(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d?))",
+      "base_score": 30,
+      "severity": "low",
+      "description": "Private/internal IP address"
+    },
+    {
+      "id": "email_address",
+      "name": "Email Address",
+      "regex": "[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}",
+      "base_score": 15,
+      "severity": "low",
+      "description": "Email address exposure"
+    },
+    {
+      "id": "base64_secret",
+      "name": "Base64 Encoded Secret",
+      "regex": "(?i)(?:secret|key|token|password|credential)[\\s]*[=:][\\s]*['\"]?([A-Za-z0-9+/]{40,}={0,2})['\"]?",
+      "base_score": 60,
+      "severity": "medium",
+      "description": "Possible Base64-encoded secret"
+    },
+    {
+      "id": "google_api_key",
+      "name": "Google API Key",
+      "regex": "AIza[0-9A-Za-z\\-_]{35}",
+      "base_score": 80,
+      "severity": "high",
+      "description": "Google API Key"
+    },
+    {
+      "id": "sendgrid_key",
+      "name": "SendGrid API Key",
+      "regex": "SG\\.[A-Za-z0-9_\\-]{22}\\.[A-Za-z0-9_\\-]{43}",
+      "base_score": 80,
+      "severity": "high",
+      "description": "SendGrid API Key"
+    }
+  ],
+  "entropy": {
+    "enabled": true,
+    "threshold": 4.5,
+    "min_length": 20,
+    "max_length": 200,
+    "base_score": 50,
+    "token_separators": "[\\s=:'\",\\[\\]{}()\\\\]"
+  },
+  "risk": {
+    "thresholds": {
+      "low": 1,
+      "medium": 40,
+      "high": 70,
+      "critical": 90
+    },
+    "score_aggregation": "additive_capped",
+    "max_score": 100
+  },
+  "scan": {
+    "max_file_size_bytes": 5242880,
+    "binary_detection": true,
+    "skip_extensions": [
+      ".png", ".jpg", ".jpeg", ".gif", ".bmp", ".ico", ".svg",
+      ".mp3", ".mp4", ".avi", ".mov", ".wav",
+      ".zip", ".tar", ".gz", ".rar", ".7z",
+      ".exe", ".dll", ".so", ".dylib",
+      ".pyc", ".pyo", ".class",
+      ".pdf", ".doc", ".docx", ".xls", ".xlsx"
+    ]
+  }
+}
